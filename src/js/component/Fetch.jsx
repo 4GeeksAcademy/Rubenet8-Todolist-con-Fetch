@@ -19,12 +19,34 @@ export const Fetch = () => {
             method: 'GET'
         }
         const response = await fetch(uri, options);
-if (response.ok) {
-    console.log('Error, response.status, response.statusText')
-    return
-}
+        if (response.ok) {
+            console.log('Error, response.status, response.statusText')
+            return
+        }
         const data = await response.json();
-        console.log(data);
+        setTodos(data.todos)
+    }
+
+    const addTodos = async () => {
+        const dataToSend = {
+            label: newTask,
+            is_done: false
+        }
+        const uri = '${host}/todos/${user}';
+        const options = {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dataToSend)
+        }
+        const response = await fetch(uri, options)
+        if (!response.ok) {
+            console.log('Error', response.status, response.statusText)
+            return
+        }
+        const data = await response.json()
+        getTodos()
     }
 
     useEffect(() => {
@@ -33,6 +55,8 @@ if (response.ok) {
 
     const handleSubmitAdd = (event) => {
         event.preventDefault();
+        addTodos()
+        setNewTask('')
     }
 
     const handleSubmitEdit = (event) => {
