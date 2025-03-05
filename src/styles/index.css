@@ -10,3 +10,10 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+.mostrar > span{
+    display: none;
+}
+
+.mostrar:hover > span{
+    display: block;
+}
